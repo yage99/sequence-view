@@ -17,6 +17,8 @@ We don't provide a RAM size inspect, so be careful when using this lib.
 
 Sample
 =============
+We now don't provide android style parameters. We use the classic Java style parameter.
+
 	// Set a background image to sequence view, this is not required.
 	// If you set, the sequence view size will depends on the background.
 	seq.setBackgroundUrl(Environment.getExternalStorageDirectory()
@@ -29,3 +31,8 @@ Sample
 	seq.setEnabled(true);
 	// Set auto play sequence view.
 	seq.setAutoPlay(true);
+	// Set use cache or not, default false;
+	seq.setCache(true);
+	
+	// Remember to call this after initialization.
+	seq.prepare();
