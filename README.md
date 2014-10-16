@@ -17,15 +17,15 @@ We don't provide a RAM size inspect, so be careful when using this lib.
 
 Sample
 =============
-// Set a background image to sequence view, this is not required.
-// If you set, the sequence view size will depends on the background.
-seq.setBackgroundUrl(Environment.getExternalStorageDirectory()
+	// Set a background image to sequence view, this is not required.
+	// If you set, the sequence view size will depends on the background.
+	seq.setBackgroundUrl(Environment.getExternalStorageDirectory()
 				+ "/Pictures/building/others/location_01.jpg");
-// Set the sequence images. The string pattern and the length.(from 0 to the number)
-seq.setPath("/Pictures/building/others/roadnet%03d.png", 29);
-// Set the slide direction, right or left.
-seq.setDirection(1);
-// Set slide enabled. Default true.
-seq.setEnabled(true);
-// Set auto play sequence view.
-seq.setAutoPlay(true);
+	// Set the sequence images. The string pattern and the length.(from 0 to the number)
+	seq.setPath("/Pictures/building/others/roadnet%03d.png", 29);
+	// Set the slide direction, right or left.
+	seq.setDirection(1);
+	// Set slide enabled. Default true.
+	seq.setEnabled(true);
+	// Set auto play sequence view.
+	seq.setAutoPlay(true);
