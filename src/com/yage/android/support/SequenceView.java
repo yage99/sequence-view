@@ -73,7 +73,7 @@ public class SequenceView extends SurfaceView implements
 	private boolean listenHotspot;
 	private HotspotCallback callback;
 	private Thread autoPlayThread;
-	private volatile boolean autoPlay;
+	private volatile boolean autoPlay = true;
 	private Callback eventCallback = new Callback();
 	protected int fixWidth;
 	protected int fixHeight;
@@ -262,32 +262,33 @@ public class SequenceView extends SurfaceView implements
 	 */
 	@SuppressLint("WrongCall")
 	public synchronized void rend() {
-		if (holder == null)
-			return;
 
 		if (bmp != null) {
 			Rect dirty = new Rect(updateRect);
-			Canvas canvas = holder.lockCanvas(dirty);
+			if (holder == null)
+				return;
+			synchronized (holder) {
+				Canvas canvas = holder.lockCanvas(dirty);
 
-			// if (target % 2 == 1) {
-			// this.onDraw(c);
-			// paint.setAlpha(127);
-			// } else
-			// paint.setAlpha(255);
-			if (canvas != null) {
-				if (dirty.left == 0) {
-					drawBackground(canvas);
-				}
-				if (background != null) {
-					canvas.drawBitmap(background, updateRect.left,
+				// if (target % 2 == 1) {
+				// this.onDraw(c);
+				// paint.setAlpha(127);
+				// } else
+				// paint.setAlpha(255);
+				if (canvas != null) {
+					if (dirty.left == 0) {
+						drawBackground(canvas);
+					}
+					if (background != null) {
+						canvas.drawBitmap(background, updateRect.left,
+								updateRect.top, paint);
+					}
+					canvas.drawBitmap(bmp.getBitmap(), updateRect.left,
 							updateRect.top, paint);
+					holder.unlockCanvasAndPost(canvas);
 				}
-				canvas.drawBitmap(bmp.getBitmap(), updateRect.left,
-						updateRect.top, paint);
-				holder.unlockCanvasAndPost(canvas);
 			}
 		}
-
 	}
 
 	/**
@@ -492,8 +493,12 @@ public class SequenceView extends SurfaceView implements
 		if (anim != null)
 			anim.end();
 		running = false;
+		if (holder != null) {
+			synchronized (holder) {
+				holder = null;
+			}
+		}
 
-		holder = null;
 		new Thread(new Runnable() {
 
 			@Override
@@ -523,6 +528,7 @@ public class SequenceView extends SurfaceView implements
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
 		case MotionEvent.ACTION_DOWN:
 		case MotionEvent.ACTION_POINTER_DOWN:
+			this.autoPlay = false;
 			x = event.getX();
 			if (anim != null)
 				anim.end();
@@ -796,9 +802,16 @@ public class SequenceView extends SurfaceView implements
 			@Override
 			public void run() {
 				while (autoPlay && running) {
-					updateTarget(convertId(target + 1));
+					long startmin = System.currentTimeMillis();
+
+					int newtarget = convertId(target + 1);
+					if (newtarget == target)
+						newtarget = 0;
+					updateTarget(newtarget);
 					try {
-						Thread.sleep(20);
+						long sleep = startmin + 20 - System.currentTimeMillis();
+						sleep = sleep < 0 ? 0 : sleep;
+						Thread.sleep(sleep);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
