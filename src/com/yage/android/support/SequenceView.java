@@ -210,7 +210,7 @@ public class SequenceView extends SurfaceView implements
 				running = true;
 				prepared(background.getWidth(), background.getHeight());
 
-				if (isCache)
+				if (isCache && !autoPlay)
 					loadAll();
 			}
 
@@ -809,7 +809,7 @@ public class SequenceView extends SurfaceView implements
 						newtarget = 0;
 					updateTarget(newtarget);
 					try {
-						long sleep = startmin + 20 - System.currentTimeMillis();
+						long sleep = startmin + 40 - System.currentTimeMillis();
 						sleep = sleep < 0 ? 0 : sleep;
 						Thread.sleep(sleep);
 					} catch (InterruptedException e) {
