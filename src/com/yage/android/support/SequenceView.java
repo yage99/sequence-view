@@ -809,7 +809,7 @@ public class SequenceView extends SurfaceView implements
 						newtarget = 0;
 					updateTarget(newtarget);
 					try {
-						long sleep = startmin + 40 - System.currentTimeMillis();
+						long sleep = startmin + 60 - System.currentTimeMillis();
 						sleep = sleep < 0 ? 0 : sleep;
 						Thread.sleep(sleep);
 					} catch (InterruptedException e) {
