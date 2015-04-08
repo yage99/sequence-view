@@ -36,3 +36,7 @@ We now don't provide android style parameters. We use the classic Java style par
 	
 	// Remember to call this after initialization.
 	seq.prepare();
+
+Contacts
+============
+Contact me at: yazhang008@gmail.com
