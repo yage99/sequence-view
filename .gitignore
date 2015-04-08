@@ -11,6 +11,8 @@
 # Generated files
 bin/
 gen/
+obj/
+JniBitmapOperationsLibrary/obj/
 
 # Gradle files
 .gradle/
