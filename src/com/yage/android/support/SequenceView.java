@@ -699,7 +699,7 @@ public class SequenceView extends SurfaceView implements
 	 */
 	public int convertId(int pid) {
 		if (rounding) {
-			pid = pid % seqLen;
+			pid = pid % (seqLen + 1);
 			return pid < 0 ? pid + seqLen : pid;
 		} else {
 			if (pid > seqLen)
